@@ -15,7 +15,7 @@ if ($cek > 0) {
   $_SESSION['username']= $username;
   $_SESSION['status']= "login";
 
-  header('location:index.php');
+  header('location:index.php?menu=home');
 } else{
 mysqli_error($koneksi);
 }

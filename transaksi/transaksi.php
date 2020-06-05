@@ -13,12 +13,12 @@ include 'koneksi.php';
   <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
 
 <div class="clearfix">
-	<h1 class="h3 mb-4 text-gray-800 float-left">Data Pengembalian</h1>
-	<a href="index.php?menu=tambah_pengembalian" class="btn btn-primary btn-sm float-right"><i class="fas fa-plus"></i> Tambah Data</a>
+	<h1 class="h3 mb-4 text-gray-800 float-left">Data Transaksi</h1>
+	<a href="index.php?menu=tambah_transaksi" class="btn btn-primary btn-sm float-right"><i class="fas fa-plus"></i> Tambah Data</a>
 </div>
 <hr>
 	<div class="card">
-	<div class="card-header">Halaman Pengembalian</div>
+	<div class="card-header">Halaman Transaksi</div>
 	<div class="card-body">
 		<div class="table-responsive">
 			
@@ -31,14 +31,13 @@ include 'koneksi.php';
 						<th> Judul Buku  </th>
 						<th> Tanggal Pinjam </th>
 						<th> Tanggal Kembali </th>
-						<th> Denda </th>
 						<th> Status </th> 
 					</tr>
 				</thead>
 				<tbody>
 	<?php 
-			$data= mysqli_query($koneksi, "SELECT * FROM tb_pengembalian JOIN tb_siswa ON 
-		tb_pengembalian.id_siswa=tb_siswa.id_siswa JOIN tb_buku ON tb_pengembalian.id_buku=tb_buku.id_buku WHERE status='Kembali' ");
+			$data= mysqli_query($koneksi, "SELECT * FROM tb_transaksi JOIN tb_siswa ON 
+		tb_transaksi.id_siswa=tb_siswa.id_siswa JOIN tb_buku ON tb_transaksi.id_buku=tb_buku.id_buku WHERE status='Pinjam' ");
 	
 	$no = 1;
 
@@ -50,7 +49,6 @@ while ($a= mysqli_fetch_assoc($data)) : ?>
 	<td> <?= $a["judul_buku"]; ?> </td>
 	<td> <?= $a["tgl_pinjam"]; ?> </td>
 	<td> <?= $a["tgl_kembali"]; ?> </td>
-	<th> </th>
 	<td> <?= $a["status"]; ?> </td>
 	</tr>
 				</tbody>

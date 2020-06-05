@@ -3,6 +3,7 @@
 include 'koneksi.php';
 session_start();
 
+
 if (!$_SESSION['status']) {
   header('location:login.php');
 }
@@ -96,18 +97,19 @@ if (!$_SESSION['status']) {
           <span>Data Buku</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="index.php?menu=peminjam">
-          <i class="fas fa-address-card"> </i>
+        <a class="nav-link" href="index.php?menu=transaksi">
+          <i class="fas fa-arrow-left"> </i>
           <span>Peminjaman</span></a>
-      </li>
+
       <li class="nav-item">
         <a class="nav-link" href="index.php?menu=pengembalian">
-          <i class="fas fa-address-card"> </i>
+          <i class="fas fa-arrow-left"> </i>
           <span>Pengembalian</span></a>
-      </li>
+
       <li class="nav-item">
         <a class="nav-link" href="keluar.php">
-          <i class="fas fa-arrow-left"> </i>
+         <!--  <i class="fas fa fa-sign-out"> </i> -->
+          <i class="fas fa-power-off"> </i>
           <span>Keluar</span></a>
       </li>
     </ul>
@@ -132,6 +134,10 @@ if (!$_SESSION['status']) {
               case 'siswa':
                include 'siswa/index.php';
                 break;
+
+              case 'home':
+              include 'home.php';
+              break;
 
               case 'tambah_siswa':
               include 'siswa/tambah_siswa.php';
@@ -173,37 +179,50 @@ if (!$_SESSION['status']) {
               include 'buku/hapus_buku.php';
               break;
 
-              case 'peminjam':
-              include 'peminjam/index.php';
+              case 'transaksi':
+              include 'transaksi/transaksi.php';
               break;
 
-              case 'tambah_peminjam':
-              include 'peminjam/tambah_peminjam.php';
+              case 'tambah_transaksi':
+              include 'transaksi/tambah_transaksi.php';
               break;
 
-              case 'edit_peminjaman':
-              include 'peminjam/edit_peminjaman.php';
-              break;
+              // case 'peminjam':
+              // include 'peminjam/index.php';
+              // break;
 
-              case 'hapus_peminjaman':
-              include 'peminjam/hapus_peminjam.php';
-              break;
+              // case 'tambah_peminjam':
+              // include 'peminjam/tambah_peminjam.php';
+              // break;
+
+              // case 'edit_peminjaman':
+              // include 'peminjam/edit_peminjaman.php';
+              // break;
+
+              // case 'hapus_peminjaman':
+              // include 'peminjam/hapus_peminjam.php';
+              // break;
 
               case 'pengembalian':
               include 'pengembalian/index.php';
               break;
 
-                case 'tambah_pengembalian':
+              case 'tambah_pengembalian':
               include 'pengembalian/tambah_pengembalian.php';
               break;
 
-                case 'hapus_pengembalian':
-              include 'pengembalian/hapus_pengembalian.php';
+              case 'prosespengembalian':
+              include 'pengembalian/prosespengembalian.php';
               break;
 
-                case 'editpengembalian':
-              include 'pengembalian/edit_pengembalian.php';
-              break;
+
+              //   case 'hapus_pengembalian':
+              // include 'pengembalian/hapus_pengembalian.php';
+              // break;
+
+              //   case 'editpengembalian':
+              // include 'pengembalian/edit_pengembalian.php';
+              // break;
 
               case 'keluar':
               include 'keluar.php';
@@ -243,8 +262,16 @@ if (!$_SESSION['status']) {
   <!-- Core plugin JavaScript-->
   <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
+  <!-- Page level plugin JavaScript-->
+  <script src="vendor/chart.js/Chart.min.js"></script>
+
   <!-- Custom scripts for all pages-->
   <script src="js/sb-admin.min.js"></script>
+
+  <!-- Demo scripts for this page-->
+  <script src="js/demo/chart-area-demo.js"></script>
+  <script src="js/demo/chart-bar-demo.js"></script>
+  <script src="js/demo/chart-pie-demo.js"></script>
 
 </body>
 

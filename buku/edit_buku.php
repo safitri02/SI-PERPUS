@@ -3,6 +3,7 @@
 include 'koneksi.php';
 
 $kd= $_GET["kode_buku"];
+
 $a= mysqli_query($koneksi, "SELECT * FROM tb_buku WHERE kode_buku = $kd");
 $edit= mysqli_fetch_assoc($a);
 

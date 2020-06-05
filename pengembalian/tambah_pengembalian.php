@@ -1,52 +1,6 @@
 <?php 
 include 'koneksi.php';
 
-$data= mysqli_query($koneksi, "SELECT * FROM tb_siswa");
-$buku= mysqli_query($koneksi, "SELECT * FROM tb_buku");
-
-
-if (isset($_POST["simpan"])) {
-	$nama= htmlspecialchars($_POST["nama_siswa"]);
-	$judul= htmlspecialchars($_POST["judul_buku"]);
-	$tgl1= htmlspecialchars($_POST["tgl_pinjam"]);
-	$tgl2= htmlspecialchars($_POST["tgl_kembali"]);
-	$denda= htmlspecialchars($_POST["denda"]);
-
-
-	// $cari_hari= abs(strtotime($tgl1)) - strtotime($tgl2);
-	// $hitung_hari= floor($cari_hari/(60*60*24));
-
-	// if ($hitung_hari > 7 ) {
-	// 	$telat= $hitung_hari - 7;
-	// 	$denda= 5000 * $telat;
-	// } else{
-	// 	$telat= 0;
-	// 	$denda= 0;
-	// }
-
-
-
-	$sql= mysqli_query($koneksi, "INSERT INTO tb_pengembali VALUES
-	('', '$nama', '$judul', '$tgl1', '$tgl2') ");
-	
-	mysqli_query($koneksi, $sql);
-
-if ($sql) {
-	echo "
-		<script> 
-		alert('Data Peminjam Berhasil Ditambah'); 
-		document.location.href='index.php?menu=peminjam';
-		</script>
-	";
-} else{
-	echo "
-		<script> 
-		alert('Data Peminjam Gagal Ditambah'); 
-		document.location.href='index.php?menu=tambah_peminjam';
-		</script>
-	";
-}
-}
 
 ?>
 
@@ -64,7 +18,7 @@ if ($sql) {
 		<span class="text-primary"><strong>Silahkan isi data di bawah ini!</strong></span>
 	</div>
 	<div class="card-body">
-	<form action="" method="POST">
+	<form action="index.php?menu=prosespengembalian" method="POST">
 
 	<div class="form-group">
 				<label for="judul_buku">Nama Peminjam </label>
@@ -72,14 +26,30 @@ if ($sql) {
 					<div class="input-group-prepend">
 						<div class="input-group-text"></div>
 					</div>
-					<select class="custom-select form-control" name="nama_siswa">
+					<select class="custom-select form-control" id="nama" name="nama" onchange="changeValue(this.value)">
+					<option> --- Pilih ---</option>
+		<?php 			
+			$data= mysqli_query($koneksi, "SELECT * FROM tb_transaksi JOIN tb_siswa ON 
+			tb_transaksi.id_siswa=tb_siswa.id_siswa JOIN tb_buku ON tb_transaksi.id_buku=tb_buku.id_buku WHERE status='Pinjam' ");
+
+			$jsArray= "var dataPinjam = new Array();";
+		 ?>
 						<?php while ($a= mysqli_fetch_assoc($data)) : ?>
-           			<option> <?= $a["nama"]; ?> </option>
+           			<option value=" <?= $a["id_siswa"]; ?> "><?= $a["nama"]; ?> </option>
+
+           			<?php 	
+           			$jsArray .= "dataPinjam['".$a['id_siswa']."'] = judul_buku: '".$w['id_buku']."' , 
+              				nama: '".$w['id_siswa']."' , tgl_pinjam: '".$w['tgl_pinjam']."' , 
+              				tgl_kembali: '".$w['tgl_kembali']."'
+
+              				 };";
+
+              			?>
            		<?php endwhile; ?>
 			 	</select> 
 				</div>
 			</div>
-			<div class="form-group">
+<!-- 			<div class="form-group">
 				<label for="judul_buku">Judul Buku </label>
 				<div class="input-group">
 					<div class="input-group-prepend">
@@ -89,6 +59,15 @@ if ($sql) {
            			<option>  </option>
 			 	</select> 
 				</div>
+			</div> -->
+			<div class="form-group">
+				<label for="tgl_pinjam">Judul Buku </label>
+					<div class="input-group">
+						<div class="input-group-prepend">
+						<div class="input-group-text"></div>
+					</div>
+					<input type="text" id="tgl_pinjam" class="form-control" id="judul_buku" name="judul_buku" autocomplete="off" required="required">
+				</div>
 			</div>
 			<div class="form-group">
 				<label for="tgl_pinjam">Tanggal Pinjam </label>
@@ -96,7 +75,7 @@ if ($sql) {
 					<div class="input-group-prepend">
 						<div class="input-group-text"></div>
 					</div>
-					<input type="date" id="tgl_pinjam" class="form-control" name="tgl_pinjam" autocomplete="off" required="required">
+					<input type="text"  id="tgl_pinjam" id="tgl_pinjam" class="form-control" name="tgl_pinjam" autocomplete="off" required="required">
 				</div>
 			</div>
 			<div class="form-group">
@@ -105,11 +84,11 @@ if ($sql) {
 					<div class="input-group-prepend">
 						<div class="input-group-text"></div>
 					</div>
-					<input type="date" id="tgl_kembali" class="form-control"  name="tgl_kembali" autocomplete="off" required="required">
+					<input type="text" id="tgl_kembali" id="tgl_kembali" class="form-control"  name="tgl_kembali" autocomplete="off" required="required">
 				</div>
 			</div>
 
-		<!-- 	<div class="form-group">
+			<div class="form-group">
 				<label for="denda">Denda </label>
 				<div class="input-group">
 					<div class="input-group-prepend">
@@ -117,7 +96,7 @@ if ($sql) {
 					</div>
 					<input type="text" id="denda" class="form-control" name="denda" autocomplete="off" required="required">
 				</div>
-			</div> -->
+			</div>
 	
 			<div class="form-group">
 				<button type="submit" class="btn btn-primary btn-sm float-right" name="simpan"><i class="fas fa-save"></i> Simpan</button>
@@ -128,3 +107,17 @@ if ($sql) {
 </div>
 </div>
 </div>
+
+<script type="text/javascript">
+	<?php echo $jsArray; ?>
+
+	function changeValue(x) {
+	document.getElementById('nama').value = dataPinjam[x].id_siswa;
+	document.getElementById('judul_buku').value = dataPinjam[x].id_buku;
+	document.getElementById('tgl_pinjam').value = dataPinjam[x].tgl_pinjam;
+	document.getElementById('tgl_kembali').value = dataPinjam[x].tgl_kembali;
+
+
+};
+
+</script>
